@@ -29,6 +29,7 @@ const modalImage = document.querySelector('.lightbox__image');
 const modalBtnClose = document.querySelector('.lightbox__button');
 
 function modalOpen(event) {
+  window.addEventListener('keydown', onEscClose);
   event.preventDefault();
 
   if (event.target.nodeName !== 'IMG') {
@@ -40,8 +41,29 @@ function modalOpen(event) {
 }
 
 function modalClose(event) {
+  window.removeEventListener('keydown', onEscClose);
   modal.classList.remove('is-open');
 }
 
 collectionPictures.addEventListener('click', modalOpen);
 modalBtnClose.addEventListener('click', modalClose);
+
+// ДОПОЛНИТЕЛЬНО
+// Клик по overlay
+const modalOverlayClick = document.querySelector('.lightbox__overlay');
+
+function modalOverlay(event) {
+  if (event.currentTarget === event.target) {
+    modalClose();
+  }
+}
+modalOverlayClick.addEventListener('click', modalOverlay);
+
+// Клик по Esc
+function onEscClose(event) {
+  console.log(event.code);
+
+  if (event.code === 'Escape') {
+    modalClose();
+  }
+}
